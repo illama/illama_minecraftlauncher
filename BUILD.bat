@@ -25,21 +25,14 @@ if errorlevel 1 (
 echo [INFO] Python trouve: %PYTHON%
 echo.
 
-echo [0/4] Incrementation de la version...
-%PYTHON% increment_version.py
-if errorlevel 1 (
-    echo [WARNING] Impossible d'incrementer la version automatiquement
-    echo [WARNING] La version actuelle sera utilisee
-)
-
-echo [1/4] Installation de PyInstaller...
+echo [0/3] Installation de PyInstaller...
 %PYTHON% -m pip install pyinstaller pystray pillow -q
 if errorlevel 1 (
     echo [WARNING] Certaines dependances optionnelles n'ont pas pu etre installees
     %PYTHON% -m pip install pyinstaller -q
 )
 
-echo [2/4] Creation de l'executable...
+echo [1/3] Creation de l'executable...
 %PYTHON% -m PyInstaller --name=IllamaLauncher --onefile --windowed --clean --noconfirm launcher.py
 
 if not exist "dist\IllamaLauncher.exe" (
@@ -58,7 +51,7 @@ if exist "%PROGRAMFILES(X86)%\Inno Setup 6\ISCC.exe" set INNO=%PROGRAMFILES(X86)
 if exist "%PROGRAMFILES%\Inno Setup 6\ISCC.exe" set INNO=%PROGRAMFILES%\Inno Setup 6\ISCC.exe
 
 if defined INNO (
-    echo [3/4] Creation de l'installateur avec Inno Setup...
+    echo [2/3] Creation de l'installateur avec Inno Setup...
     "%INNO%" installer.iss
     echo.
     echo ========================================

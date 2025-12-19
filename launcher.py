@@ -32,39 +32,6 @@ import time
 LAUNCHER_VERSION = "1.0.0"
 MIN_REQUIRED_VERSION = "1.0.0"  # Version minimale requise (force la mise à jour si inférieure)
 
-def increment_version(version: str) -> str:
-    """Incrémente la version automatiquement
-    Format: X.Y.Z
-    - Z incrémente jusqu'à 9, puis Y incrémente et Z revient à 0
-    - Y incrémente jusqu'à 9, puis X incrémente et Y revient à 0
-    Exemples: 1.0.2 -> 1.0.3, 1.0.9 -> 1.1.0, 1.9.9 -> 2.0.0
-    """
-    try:
-        parts = version.split('.')
-        if len(parts) != 3:
-            return version
-        
-        major = int(parts[0])
-        minor = int(parts[1])
-        patch = int(parts[2])
-        
-        # Incrémenter le patch
-        patch += 1
-        
-        # Si patch > 9, incrémenter minor et remettre patch à 0
-        if patch > 9:
-            patch = 0
-            minor += 1
-            
-            # Si minor > 9, incrémenter major et remettre minor à 0
-            if minor > 9:
-                minor = 0
-                major += 1
-        
-        return f"{major}.{minor}.{patch}"
-    except:
-        return version
-
 # === CONFIGURATION GITHUB (Mises à jour) ===
 GITHUB_REPO_OWNER = "illama"  # Remplace par ton username GitHub
 GITHUB_REPO_NAME = "illama_minecraftlauncher"  # Remplace par le nom de ton repo
@@ -216,7 +183,10 @@ DRIVE_API_KEY = SECRETS.get("drive_api_key", "") or ""
 # Si la clé est vide, afficher un avertissement
 if not DRIVE_API_KEY:
     print("[WARNING] Clé API Google Drive non trouvée dans secrets.json")
+    print("[WARNING] Vérifie que le fichier secrets.json existe et contient 'drive_api_key'")
     print("[WARNING] Le launcher utilisera le mode scraping (moins fiable)")
+else:
+    print(f"[INFO] Clé API Google Drive chargée depuis secrets.json ({len(DRIVE_API_KEY)} caractères)")
 GITHUB_TOKEN = SECRETS.get("github_token", _GITHUB_TOKEN_DEFAULT) if SECRETS.get("github_token") else _GITHUB_TOKEN_DEFAULT
 ADMIN_PASSWORD = SECRETS.get("admin_password", _ADMIN_PASSWORD_DEFAULT) if SECRETS.get("admin_password") else _ADMIN_PASSWORD_DEFAULT
 
@@ -3718,12 +3688,23 @@ class LauncherGUI:
                 
                 self.root.after(0, lambda: self.log(f"Dossier mods: {mods_dir}"))
                 
-                # Sync mods
+                # Sync mods - Utiliser la clé API depuis secrets.json ou config
+                api_key = self.config.get('api_key', '') or DRIVE_API_KEY
+                if not api_key:
+                    self.root.after(0, lambda: self.log("[ERREUR] Clé API Google Drive non trouvée!"))
+                    self.root.after(0, lambda: self.log("[INFO] Vérifie que secrets.json existe et contient 'drive_api_key'"))
+                    self.root.after(0, lambda: self.log(f"[DEBUG] Chemin secrets.json: {SECRETS_FILE}"))
+                    self.root.after(0, lambda: self.log(f"[DEBUG] Fichier existe: {SECRETS_FILE.exists()}"))
+                else:
+                    self.root.after(0, lambda: self.log(f"[INFO] Clé API chargée ({len(api_key)} caractères)"))
+                
                 sync = GoogleDriveSync(
                     self.config.get('google_drive_folder_id', DRIVE_FOLDER_ID),
                     mods_dir,
-                    self.config.get('api_key', DRIVE_API_KEY)
+                    api_key
                 )
+                
+                self.root.after(0, lambda: self.log(f"[DEBUG] Folder ID: {self.config.get('google_drive_folder_id', DRIVE_FOLDER_ID)}"))
                 
                 # Vérifier d'abord les fichiers à remplacer
                 self.root.after(0, lambda: self.status_label.config(text="Verification des fichiers..."))
@@ -3980,7 +3961,11 @@ class LauncherGUI:
         if CONFIG_FILE.exists():
             try:
                 with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-                    return {**DEFAULT_CONFIG, **json.load(f)}
+                    loaded_config = {**DEFAULT_CONFIG, **json.load(f)}
+                    # S'assurer que la clé API est toujours à jour depuis secrets.json
+                    if not loaded_config.get('api_key') or loaded_config.get('api_key') == '':
+                        loaded_config['api_key'] = DRIVE_API_KEY
+                    return loaded_config
             except:
                 pass
         return DEFAULT_CONFIG.copy()
