@@ -135,8 +135,19 @@ def get_screen_resolution():
 # Fichiers de config
 CONFIG_FILE = Path.home() / ".illama_launcher_config.json"
 AUTH_FILE = Path.home() / ".illama_launcher_auth.json"
-# Fichier de secrets (doit être dans le même dossier que launcher.py, NON inclus dans l'exe)
-SECRETS_FILE = Path(__file__).parent / "secrets.json"
+
+# Fichier de secrets - Gérer le cas PyInstaller (exécutable)
+def get_base_path():
+    """Retourne le chemin de base (dossier de l'exe ou du script)"""
+    if getattr(sys, 'frozen', False):
+        # Exécutable PyInstaller - utiliser le dossier de l'exe
+        return Path(sys.executable).parent
+    else:
+        # Script Python - utiliser le dossier du script
+        return Path(__file__).parent
+
+# Fichier de secrets (doit être dans le même dossier que l'exe/script, NON inclus dans l'exe)
+SECRETS_FILE = get_base_path() / "secrets.json"
 
 def load_secrets():
     """Charge les secrets depuis un fichier externe (sécurisé, non inclus dans l'exe)"""
@@ -3692,9 +3703,15 @@ class LauncherGUI:
                 api_key = self.config.get('api_key', '') or DRIVE_API_KEY
                 if not api_key:
                     self.root.after(0, lambda: self.log("[ERREUR] Clé API Google Drive non trouvée!"))
-                    self.root.after(0, lambda: self.log("[INFO] Vérifie que secrets.json existe et contient 'drive_api_key'"))
-                    self.root.after(0, lambda: self.log(f"[DEBUG] Chemin secrets.json: {SECRETS_FILE}"))
+                    self.root.after(0, lambda: self.log(f"[INFO] Vérifie que secrets.json existe et contient 'drive_api_key'"))
+                    self.root.after(0, lambda: self.log(f"[DEBUG] Chemin secrets.json recherché: {SECRETS_FILE}"))
                     self.root.after(0, lambda: self.log(f"[DEBUG] Fichier existe: {SECRETS_FILE.exists()}"))
+                    if SECRETS_FILE.exists():
+                        try:
+                            size = SECRETS_FILE.stat().st_size
+                            self.root.after(0, lambda: self.log(f"[DEBUG] Taille du fichier: {size} octets"))
+                        except:
+                            pass
                 else:
                     self.root.after(0, lambda: self.log(f"[INFO] Clé API chargée ({len(api_key)} caractères)"))
                 
