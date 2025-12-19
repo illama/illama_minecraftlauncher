@@ -29,7 +29,7 @@ import ssl
 import time
 
 # === VERSION DU LAUNCHER ===
-LAUNCHER_VERSION = "1.0.0"
+LAUNCHER_VERSION = "1.0.1"
 MIN_REQUIRED_VERSION = "1.0.0"  # Version minimale requise (force la mise à jour si inférieure)
 
 def increment_version(version: str) -> str:
@@ -211,7 +211,12 @@ _DRIVE_API_KEY_DEFAULT = ""
 _GITHUB_TOKEN_DEFAULT = ""
 _ADMIN_PASSWORD_DEFAULT = ""
 
-DRIVE_API_KEY = SECRETS.get("drive_api_key", _DRIVE_API_KEY_DEFAULT) if SECRETS.get("drive_api_key") else _DRIVE_API_KEY_DEFAULT
+# Charger la clé API depuis secrets.json
+DRIVE_API_KEY = SECRETS.get("drive_api_key", "") or ""
+# Si la clé est vide, afficher un avertissement
+if not DRIVE_API_KEY:
+    print("[WARNING] Clé API Google Drive non trouvée dans secrets.json")
+    print("[WARNING] Le launcher utilisera le mode scraping (moins fiable)")
 GITHUB_TOKEN = SECRETS.get("github_token", _GITHUB_TOKEN_DEFAULT) if SECRETS.get("github_token") else _GITHUB_TOKEN_DEFAULT
 ADMIN_PASSWORD = SECRETS.get("admin_password", _ADMIN_PASSWORD_DEFAULT) if SECRETS.get("admin_password") else _ADMIN_PASSWORD_DEFAULT
 
