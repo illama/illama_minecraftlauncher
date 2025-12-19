@@ -29,7 +29,7 @@ import ssl
 import time
 
 # === VERSION DU LAUNCHER ===
-LAUNCHER_VERSION = "1.0.1"
+LAUNCHER_VERSION = "1.0.0"
 MIN_REQUIRED_VERSION = "1.0.0"  # Version minimale requise (force la mise à jour si inférieure)
 
 def increment_version(version: str) -> str:
