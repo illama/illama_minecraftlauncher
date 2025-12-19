@@ -1,0 +1,35 @@
+# Fichiers de secrets (NE JAMAIS COMMITER!)
+secrets.json
+*.key
+*.pem
+*.env
+
+# Fichiers Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Build
+build/
+dist/
+*.egg-info/
+*.spec
+
+# Installateur
+installer_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
