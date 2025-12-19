@@ -58,18 +58,6 @@ minecraft-sync-launcher/
 └── README.md                      # Ce fichier
 ```
 
-### Configuration Admin
-
-- **Mot de passe admin:** `illama2024` (modifiable dans le code)
-- **Clé API Google Drive:** Intégrée dans le code
-- **ID dossier Drive:** Intégré dans le code
-
-Pour modifier ces paramètres, édite les variables au début de `launcher.py`:
-```python
-DRIVE_API_KEY = "ta_cle_api"
-DRIVE_FOLDER_ID = "id_du_dossier"
-ADMIN_PASSWORD = "ton_mot_de_passe"
-```
 
 ## Licence
 
