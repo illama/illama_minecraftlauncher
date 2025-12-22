@@ -321,20 +321,19 @@ Les contributions sont les bienvenues !
 
 ## 📝 TODO / Roadmap
 
-### Version 2.1
+### Version 3.1
 - [ ] Refactoriser le code en modules séparés
 - [ ] Implémenter des tests unitaires
 - [ ] Ajouter support de profils multiples
 - [ ] Mode hors ligne
 
-### Version 2.2
+### Version 3.2
 - [ ] Migration vers CustomTkinter
 - [ ] Discord Rich Presence
 - [ ] Statistiques de jeu
 - [ ] Backup automatique des saves
 
-### Version 3.0
-- [ ] Support de Fabric en plus de Forge
+### Version 4.0
 - [ ] Interface web (optionnelle)
 - [ ] Serveur backend pour analytics
 - [ ] Multi-langue (FR/EN)
