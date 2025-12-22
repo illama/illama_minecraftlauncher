@@ -1,0 +1,52 @@
+# ============================================================
+# ILLAMA LAUNCHER - Dépendances Python
+# ============================================================
+# Installation: pip install -r requirements.txt
+
+# === Interface graphique ===
+# Tkinter est inclus avec Python, mais on liste les dépendances UI
+Pillow>=10.1.0              # Gestion des images (icônes, screenshots)
+pystray>=0.19.5             # System tray (icône dans la barre des tâches)
+
+# === Sécurité & Configuration ===
+python-dotenv>=1.0.0        # Gestion des variables d'environnement (.env)
+cryptography>=41.0.7        # Chiffrement des tokens (optionnel mais recommandé)
+
+# === Réseau & API ===
+requests>=2.31.0            # Requêtes HTTP (GitHub API, Drive API)
+urllib3>=2.1.0              # Gestion bas niveau des requêtes
+
+# === Build & Distribution ===
+pyinstaller>=6.3.0          # Compilation en .exe
+setuptools>=69.0.0          # Outils de packaging
+
+# === Logging & Monitoring (Optionnel) ===
+# Décommenter si tu veux ajouter du monitoring avancé
+# sentry-sdk>=1.40.0        # Télémétrie des erreurs
+# loguru>=0.7.2             # Logging amélioré
+
+# === Système (Multi-plateforme) ===
+# psutil est déjà utilisé dans le code mais pas listé
+psutil>=5.9.6               # Informations système (RAM, CPU, processus)
+
+# === Tests (Développement uniquement) ===
+# Décommenter pour le développement
+# pytest>=7.4.3             # Framework de tests
+# pytest-cov>=4.1.0         # Couverture de code
+# black>=23.12.1            # Formatage du code
+# flake8>=7.0.0             # Linting
+# mypy>=1.8.0               # Type checking
+
+# === Cache & Performance (Optionnel) ===
+# Décommenter pour améliorer les performances
+# diskcache>=5.6.3          # Cache disque pour métadonnées
+# aiohttp>=3.9.1            # Téléchargements asynchrones
+# aiofiles>=23.2.1          # Opérations fichiers async
+
+# === Notifications (Optionnel) ===
+# Décommenter pour les notifications système
+# plyer>=2.1.0              # Notifications multi-plateforme
+
+# === UI Moderne (Alternative) ===
+# Décommenter si tu veux migrer vers CustomTkinter
+# customtkinter>=5.2.1      # Interface moderne

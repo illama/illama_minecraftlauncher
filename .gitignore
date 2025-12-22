@@ -1,0 +1,94 @@
+# ============================================================
+# ILLAMA LAUNCHER - .gitignore
+# ============================================================
+
+# === SECRETS & CONFIGURATION (NE JAMAIS COMMITER!) ===
+.env
+.env.local
+.env.*.local
+secrets.json
+config.json
+*.key
+*.pem
+
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# === BUILD & DISTRIBUTION ===
+build/
+dist/
+installer_output/
+*.spec
+*.exe
+*.msi
+*.dmg
+*.deb
+*.rpm
+
+# === LOGS ===
+*.log
+logs/
+*.log.*
+
+# === CACHE ===
+.cache/
+*.cache
+.diskcache/
+
+# === IDE & EDITORS ===
+.vscode/
+*.code-workspace
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# === OS ===
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# === TESTS ===
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+.hypothesis/
+
+# === TEMPORARY FILES ===
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+temp/
+tmp/
+
+# === DONNÉES UTILISATEUR ===
+launcher_config.json
+*.db
+*.sqlite
+*.sqlite3
+
+# === AUTRES ===
+*.pid
+*.seed
+*.pid.lock
