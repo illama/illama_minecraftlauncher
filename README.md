@@ -366,8 +366,6 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ## 📞 Support
 
 **Besoin d'aide ?**
-- 📧 Email : [ton_email@example.com]
-- 💬 Discord : [Lien vers ton Discord]
 - 🐛 Issues : [GitHub Issues](https://github.com/illama/illama_minecraftlauncher/issues)
 
 ---
